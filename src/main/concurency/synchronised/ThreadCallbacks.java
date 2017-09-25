@@ -8,7 +8,8 @@ import java.util.List;
 public interface ThreadCallbacks {
 
     void listFull();
-    void listEmpty();
-    List<Integer> getNumberList();
 
+    void listEmpty();
+
+    List<Integer> getNumberList();
 }

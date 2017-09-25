@@ -2,15 +2,12 @@ package main.concurency.synchronised;
 
 import java.util.List;
 
-import org.apache.commons.logging.impl.Log4JLogger;
-
 /**
  * Created by miha.novak on 13/07/2017.
  */
 public class ConsumerThread extends Thread {
 
     private final static String TAG = ConsumerThread.class.getName();
-    private static Log4JLogger logger = new Log4JLogger(TAG);
 
     private ThreadCallbacks callbacks;
 
@@ -21,13 +18,13 @@ public class ConsumerThread extends Thread {
     @Override
     public void run() {
         super.run();
-        synchronized (this){
+        synchronized (this) {
             List<Integer> numberList = callbacks.getNumberList();
-            if(numberList.size() > 0){
-                logger.debug("Size pre-removing = " + numberList.size());
-                logger.debug("Removing element = " + numberList.get(0));
+            if (numberList.size() > 0) {
+                System.out.println("Size pre-removing = " + numberList.size());
+                System.out.println("Removing element = " + numberList.get(0));
                 numberList.remove(0);
-            } else{
+            } else {
                 callbacks.listEmpty();
             }
         }
