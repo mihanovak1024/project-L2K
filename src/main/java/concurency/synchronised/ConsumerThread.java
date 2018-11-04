@@ -2,12 +2,14 @@ package concurency.synchronised;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by miha.novak on 13/07/2017.
  */
 public class ConsumerThread extends Thread {
-
-    private final static String TAG = ConsumerThread.class.getName();
+    private Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
     private ThreadCallbacks callbacks;
 
@@ -21,8 +23,8 @@ public class ConsumerThread extends Thread {
         synchronized (this) {
             List<Integer> numberList = callbacks.getNumberList();
             if (numberList.size() > 0) {
-                System.out.println("Size pre-removing = " + numberList.size());
-                System.out.println("Removing element = " + numberList.get(0));
+                log.debug("Size pre-removing = " + numberList.size());
+                log.debug("Removing element = " + numberList.get(0));
                 numberList.remove(0);
             } else {
                 callbacks.listEmpty();

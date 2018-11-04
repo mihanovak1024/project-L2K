@@ -3,10 +3,14 @@ package concurency.synchronised;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by miha.novak on 13/07/2017.
  */
 public class SynchronisedMain implements ThreadCallbacks {
+    private Logger log = LoggerFactory.getLogger(getClass().getSimpleName());
 
     private ProducerThread producer;
     private ConsumerThread consumer;
@@ -21,7 +25,7 @@ public class SynchronisedMain implements ThreadCallbacks {
 
     public SynchronisedMain() {
         numberList = new ArrayList<>();
-        System.out.println("Starting threads");
+        log.debug("Starting threads");
         producer = new ProducerThread(this);
         consumer = new ConsumerThread(this);
         producer.run();
@@ -38,7 +42,7 @@ public class SynchronisedMain implements ThreadCallbacks {
 
     @Override
     public void listFull() {
-        System.out.println("List is full CALLBACK");
+        log.debug("List is full CALLBACK");
         synchronized (this) {
             listFullMax--;
         }
@@ -46,7 +50,7 @@ public class SynchronisedMain implements ThreadCallbacks {
 
     @Override
     public void listEmpty() {
-        System.out.println("List is empty CALLBACK");
+        log.debug("List is empty CALLBACK");
     }
 
     @Override
