@@ -7,8 +7,7 @@ The code is meant to be well organized with Javadocs and Unit tests and is meant
 Older "little projects" might not be as up-to-date as the newer ones as I currently don't to update the older projects, but only create newer (more up-to-date) ones. 
 
 ## TODO
-***
-Topics that are already a known concept in my mind, but didn't yet have the privilage to have their very own project:
+Topics that are already a known concept in my mind, but didn't yet have the privilege to have their very own project:
 1) Java multithreading (Executor + ExecutorServices, Locks, Synchronised,...)
 2) Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 3) RxJava2 and RxAndroid
@@ -17,7 +16,6 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 
 
 ## Project status
-***
 ### Finished
 /
 ### In progress
