@@ -1,4 +1,4 @@
-package main.java.concurency.synchronised;
+package concurency.synchronised;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,6 @@ import java.util.List;
  * Created by miha.novak on 13/07/2017.
  */
 public class SynchronisedMain implements ThreadCallbacks {
-
-    private final static String TAG = SynchronisedMain.class.getName();
 
     private ProducerThread producer;
     private ConsumerThread consumer;
