@@ -1,6 +1,8 @@
-package main.concurency.synchronised;
+package main.java.concurency.synchronised;
 
 import java.util.List;
+
+import main.java.concurency.synchronised.ThreadCallbacks;
 
 /**
  * Created by miha.novak on 13/07/2017.

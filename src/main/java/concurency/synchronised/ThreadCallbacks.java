@@ -1,4 +1,4 @@
-package main.concurency.synchronised;
+package main.java.concurency.synchronised;
 
 import java.util.List;
 

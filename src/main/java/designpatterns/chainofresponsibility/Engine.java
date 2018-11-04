@@ -1,9 +1,9 @@
-package main.designpatterns.chainofresponsibility;
+package main.java.designpatterns.chainofresponsibility;
 
 /**
  * Created by miha.novak on 25/09/2017.
  */
-public class Tyre implements Handler {
+public class Engine implements Handler {
 
     private Handler nextHandler;
 
@@ -14,13 +14,13 @@ public class Tyre implements Handler {
 
     @Override
     public void doSomethingOnCarPart(String mechanicAction, String carPart) {
-        if (carPart.equals("Tyre")) {
+        if (carPart.equals("Engine")) {
             switch (mechanicAction) {
-                case "CheckPressure":
-                    System.out.println("Pressure in the " + carPart + " is okay.");
+                case "RunDiagnostics":
+                    System.out.println("There doesn't seem to be anything wrong with the " + carPart + ".");
                     break;
-                case "AddPressure":
-                    System.out.println("Pressure added to the " + carPart + ".");
+                case "ImprovePower":
+                    System.out.println("The power of the " + carPart + " has been improved by 11 hP");
                     break;
                 default:
                     System.out.println("Our " + carPart + " mechanic can't do the following job: " + mechanicAction);

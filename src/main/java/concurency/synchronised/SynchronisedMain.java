@@ -1,4 +1,4 @@
-package main.concurency.synchronised;
+package main.java.concurency.synchronised;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,10 @@ public class SynchronisedMain implements ThreadCallbacks {
     int listFullMax = 5;
 
     public static List<Integer> numberList;
+
+    public static void main(String[] args) {
+        new SynchronisedMain();
+    }
 
     public SynchronisedMain() {
         numberList = new ArrayList<>();

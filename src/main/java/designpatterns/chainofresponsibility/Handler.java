@@ -1,4 +1,4 @@
-package main.designpatterns.chainofresponsibility;
+package main.java.designpatterns.chainofresponsibility;
 
 /**
  * Created by miha.novak on 25/09/2017.
