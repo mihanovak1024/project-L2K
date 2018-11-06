@@ -1,4 +1,4 @@
-package concurency.synchronised;
+package concurency.synchronised.simple;
 
 import java.util.List;
 
@@ -12,5 +12,4 @@ public interface ThreadCallbacks {
     void listEmpty();
 
     List<Integer> getNumberList();
-    
 }
