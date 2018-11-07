@@ -8,7 +8,6 @@ Older "little projects" might not be as up-to-date as the newer ones as I curren
 
 ## TODO
 Topics that are already a known concept in my mind, but didn't yet have the privilege to have their very own project:
-1) Java multithreading (Executor + ExecutorServices, Locks, Synchronised,...)
 2) Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 3) RxJava2 and RxAndroid
 4) Small Kotlin projects (emphasis on Streams and Lambdas)
@@ -17,9 +16,9 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 
 ## Project status
 ### Finished
-/
-### In progress
 1) Java multithreading
+### In progress
+2) Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 ### Running each project
 Each little project will have Unit tests, but can also be run (in Java) via the `public static void main()` method.
 Each project can be run separately and independently from one another.
