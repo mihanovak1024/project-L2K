@@ -1,4 +1,4 @@
-package concurency.synchronised.simple;
+package concurrency.synchronised.simple;
 
 import static java.lang.Thread.sleep;
 
