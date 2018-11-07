@@ -3,7 +3,9 @@ package concurency.synchronised.simple;
 import java.util.List;
 
 /**
- * Created by miha.novak on 13/07/2017.
+ * Callback to notify the user that the list is:
+ * 1) empty -> Consumer deleted all the elements
+ * 2) full  -> Producer inserted until the list was full
  */
 public interface ThreadCallbacks {
 

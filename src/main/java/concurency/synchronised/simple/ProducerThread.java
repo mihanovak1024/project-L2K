@@ -6,10 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by miha.novak on 13/07/2017.
- */
-
-/**
  * ProducerThread is responsible for producing the
  * elements into the numberList.
  */

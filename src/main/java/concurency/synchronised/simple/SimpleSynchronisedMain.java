@@ -9,7 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by miha.novak on 13/07/2017.
+ * Simple test with synchronised blocks.
+ * <p>
+ * Producer is filling up the numberList
+ * and consumer is deleting (with half of producers speed) them out of the list.
  */
 public class SimpleSynchronisedMain implements ThreadCallbacks {
 

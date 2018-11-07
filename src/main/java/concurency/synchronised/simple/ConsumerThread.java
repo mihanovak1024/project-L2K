@@ -6,10 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by miha.novak on 13/07/2017.
- */
-
-/**
  * ConsumerThread is responsible for consuming the
  * elements for the numberList.
  */
