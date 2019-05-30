@@ -55,9 +55,9 @@ public class GuavaFetcher implements DataFetchingService {
 
         Futures.addCallback(timeoutHandler, new FutureCallback<Response>() {
             @Override
-            public void onSuccess(@Nullable Response data) {
+            public void onSuccess(@Nullable Response response) {
                 if (dataFetchCallback != null) {
-                    dataFetchCallback.onDataFetchSuccess(data);
+                    dataFetchCallback.onDataFetchSuccess(response);
                 }
             }
 
