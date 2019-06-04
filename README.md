@@ -19,8 +19,8 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 ## Project status
 ### Finished
 - Java multithreading
-### In progress
 - Futures and ListenableFutures ([Guava](https://github.com/google/guava))
+### In progress
 ### Running each project
 Each little project will have Unit tests, but can also be run (in Java) via the `public static void main()` method.
 Each project can be run separately and independently from one another.
