@@ -1,6 +1,7 @@
 package concurrency.futures;
 
 import java.io.InputStream;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeoutException;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -35,20 +37,8 @@ public class GuavaFetcher implements DataFetchingService {
                           @Nonnull String source,
                           @Nonnull DataFetchCallback dataFetchCallback,
                           @Nonnull int futureTimeoutMillis) {
-        ListenableFuture<Response> listenableFuture = listeningExecutorService.submit(() -> {
-            HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
-
-            // If an error occurs during request,
-            // the HttpRequestException is thrown and onFailure(throwable) is called
-            InputStream inputStream = httpRequestHelper.makeRequestForUrl(url);
-
-            // If an error occurs during input stream parsing,
-            // the InputStreamException is thrown and onFailure(throwable) is called
-            String jsonResponse = Util.getStringFromInputStream(inputStream);
-
-            Response response = new Response(source, jsonResponse);
-            return response;
-        });
+        Callable dataFetchTask = createDataFetchTask(source, url);
+        ListenableFuture<Response> listenableFuture = listeningExecutorService.submit(dataFetchTask);
 
         ListenableFuture<Response> timeoutHandler =
                 Futures.withTimeout(listenableFuture, futureTimeoutMillis, TimeUnit.MILLISECONDS, listeningScheduledExecutorService);
@@ -72,5 +62,34 @@ public class GuavaFetcher implements DataFetchingService {
                 }
             }
         }, MoreExecutors.directExecutor());
+    }
+
+    @VisibleForTesting
+    protected Callable<Response> createDataFetchTask(String source, String url) {
+        Callable dataFetchTask = () -> {
+            HttpRequestHelper httpRequestHelper = new HttpRequestHelper();
+
+            // If an error occurs during request,
+            // the HttpRequestException is thrown and onFailure(throwable) is called
+            InputStream inputStream = httpRequestHelper.makeRequestForUrl(url);
+
+            // If an error occurs during input stream parsing,
+            // the InputStreamException is thrown and onFailure(throwable) is called
+            String jsonResponse = Util.getStringFromInputStream(inputStream);
+
+            Response response = new Response(source, jsonResponse);
+            return response;
+        };
+        return dataFetchTask;
+    }
+
+    @VisibleForTesting
+    protected ListeningExecutorService getListeningExecutorService() {
+        return listeningExecutorService;
+    }
+
+    @VisibleForTesting
+    protected ListeningScheduledExecutorService getListeningScheduledExecutorService() {
+        return listeningScheduledExecutorService;
     }
 }
