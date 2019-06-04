@@ -8,8 +8,6 @@ Older "little projects" might not be as up-to-date as the newer ones as I curren
 
 ## TODO
 Topics that are already a known concept in my mind, but didn't yet have the privilege to have their very own project:
-- Futures and ListenableFutures ([Guava](https://github.com/google/guava))
-- Java Generics 
 - RxJava2 and RxAndroid
 - Dagger2 ande Dependency Injection
 - Small Kotlin projects (emphasis on Streams and Lambdas)
@@ -21,6 +19,7 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 - Java multithreading
 - Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 ### In progress
+- Java Generics
 ### Running each project
 Each little project will have Unit tests, but can also be run (in Java) via the `public static void main()` method.
 Each project can be run separately and independently from one another.
