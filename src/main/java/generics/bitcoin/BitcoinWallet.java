@@ -8,4 +8,8 @@ public class BitcoinWallet extends Wallet<Bitcoin> {
         super(currency);
     }
 
+    @Override
+    public boolean isHolderAnonymous() {
+        return true;
+    }
 }

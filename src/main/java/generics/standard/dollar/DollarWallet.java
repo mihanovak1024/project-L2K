@@ -7,4 +7,9 @@ public class DollarWallet extends StandardWallet<Dollar> {
     public DollarWallet(Dollar currency) {
         super(currency);
     }
+
+    @Override
+    public void transferCurrencyToBankAccount(int currencyAmountToTransfer, Dollar currency) {
+
+    }
 }

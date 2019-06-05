@@ -1,6 +1,6 @@
 package generics;
 
-public class Wallet<T extends Currency> {
+public abstract class Wallet<T extends Currency> implements CurrencyHolder<T> {
 
     private T currency;
 
@@ -11,5 +11,4 @@ public class Wallet<T extends Currency> {
     public T getCurrency() {
         return currency;
     }
-
 }

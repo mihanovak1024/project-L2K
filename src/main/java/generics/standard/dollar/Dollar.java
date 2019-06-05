@@ -4,8 +4,7 @@ import generics.standard.StandardCurrency;
 
 public class Dollar extends StandardCurrency {
 
-    public Dollar(int currencyDolarExchangeRate, int totalCurrencyDolarValue, int currencyQuantity) {
+    public Dollar(double currencyDolarExchangeRate, double totalCurrencyDolarValue, int currencyQuantity) {
         super(currencyDolarExchangeRate, totalCurrencyDolarValue, currencyQuantity);
     }
-
 }
