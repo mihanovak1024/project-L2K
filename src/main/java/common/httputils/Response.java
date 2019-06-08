@@ -8,7 +8,7 @@ public class Response {
     private String source;
     private String data;
 
-    public Response(@Nonnull String source, @Nullable  String data) {
+    public Response(@Nonnull String source, @Nullable String data) {
         this.source = source;
         this.data = data;
     }

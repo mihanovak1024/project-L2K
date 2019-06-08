@@ -22,18 +22,19 @@ public class FutureMain implements DataFetchCallback {
         String url = "https://jobs.github.com/positions.json?description=android&location=sf";
         String source = "GitHub";
 
-//        String url2 = "https://api.coindesk.com/v1/bpi/currentprice.json";
-//        String source2 = "CoinDesk";
+        //        String url2 = "https://api.coindesk.com/v1/bpi/currentprice.json";
+        //        String source2 = "CoinDesk";
 
         dataFetchStart = System.currentTimeMillis();
         log.debug("[FutureMain] [currentThread: " + Thread.currentThread().getName() + "]");
-        dataFetchingService.fetchData(url, source,this, FUTURE_TIMEOUT_MILLIS);
-//        dataFetchingService.fetchData(url2, source2, this, FUTURE_TIMEOUT_MILLIS);
+        dataFetchingService.fetchData(url, source, this, FUTURE_TIMEOUT_MILLIS);
+        //        dataFetchingService.fetchData(url2, source2, this, FUTURE_TIMEOUT_MILLIS);
     }
 
     private void dataFetchStop(@Nonnull String fromMethod) {
         long dataFetchLength = System.currentTimeMillis() - dataFetchStart;
-        log.debug("[" + fromMethod + "] [currentThread: " + Thread.currentThread().getName() + "]  dataFetchLengthMillis = " + dataFetchLength);
+        log.debug("[" + fromMethod + "] [currentThread: " + Thread.currentThread().getName() + "]  dataFetchLengthMillis = " +
+                  dataFetchLength);
     }
 
     @Override

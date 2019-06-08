@@ -51,7 +51,7 @@ public class StopwatchTimer {
         startTimeMillis = System.currentTimeMillis();
 
         if (millisToFinish < 0) {
-            log.debug("Starting stopwatch for " + stopwatchTimeMillis/1000 + " seconds.");
+            log.debug("Starting stopwatch for " + stopwatchTimeMillis / 1000 + " seconds.");
             // No need for locking, as no-one can alter it (stopwatch is stopped at this moment).
             millisToFinish = stopwatchTimeMillis;
         } else {

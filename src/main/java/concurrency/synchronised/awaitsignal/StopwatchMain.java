@@ -34,7 +34,7 @@ public class StopwatchMain implements StopwatchNotifier {
 
     public StopwatchMain() {
         ExecutorService mainExecutor = Executors.newSingleThreadExecutor();
-        ExecutorService stopwatchExecutor =  Executors.newSingleThreadExecutor();
+        ExecutorService stopwatchExecutor = Executors.newSingleThreadExecutor();
         mainExecutor.submit(new Runnable() {
             @Override
             public void run() {
