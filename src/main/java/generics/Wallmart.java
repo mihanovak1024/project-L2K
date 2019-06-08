@@ -7,13 +7,22 @@ import generics.bitcoin.Bitcoin;
 import generics.bitcoin.BitcoinWallet;
 import generics.ethereum.Ethereum;
 import generics.ethereum.EthereumWallet;
-import generics.standard.StandardCurrency;
+import generics.standard.dollar.Dollar;
+import generics.standard.dollar.DollarWallet;
 import generics.standard.euro.Euro;
 import generics.standard.euro.EuroWallet;
 
 public class Wallmart {
 
-    private static List<CurrencyHolder<StandardCurrency>> walletList;
+    private static final double BITCOIN_DOLAR_EXCHANGE_RATE = 7768;
+    private static final double ETHEREUM_DOLAR_EXCHANGE_RATE = 244;
+    private static final double EURO_DOLAR_EXCHANGE_RATE = 1.12;
+
+    private static List<CurrencyHolder> walletList;
+
+    public static void main(String[] args) {
+        new Wallmart();
+    }
 
     public Wallmart() {
         setupWalletList();
@@ -22,28 +31,20 @@ public class Wallmart {
     private void setupWalletList() {
         walletList = new ArrayList<>();
 
-        Bitcoin bitcoin = new Bitcoin(
-                7768,
-                776800,
-                10
-        );
-        CurrencyHolder bitcoinWallet = new BitcoinWallet(bitcoin);
+        Bitcoin bitcoin = new Bitcoin(BITCOIN_DOLAR_EXCHANGE_RATE);
+        CurrencyHolder bitcoinWallet = new BitcoinWallet(bitcoin, 10);
         walletList.add(bitcoinWallet);
 
-        Ethereum ethereum = new Ethereum(
-                244,
-                244000,
-                1000
-        );
-        CurrencyHolder ethereumWallet = new EthereumWallet(ethereum);
+        Ethereum ethereum = new Ethereum(ETHEREUM_DOLAR_EXCHANGE_RATE);
+        CurrencyHolder ethereumWallet = new EthereumWallet(ethereum, 100);
         walletList.add(ethereumWallet);
 
-        Euro euro = new Euro(
-                1.12,
-                112,
-                100
-        );
-        CurrencyHolder euroWallet = new EuroWallet(euro);
+        Euro euro = new Euro(EURO_DOLAR_EXCHANGE_RATE);
+        CurrencyHolder euroWallet = new EuroWallet(euro, 500);
         walletList.add(euroWallet);
+
+        Dollar dollar = new Dollar(1);
+        CurrencyHolder dolarWallet = new DollarWallet(dollar, 250);
+        walletList.add(dolarWallet);
     }
 }

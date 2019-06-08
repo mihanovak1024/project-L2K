@@ -1,14 +1,14 @@
 package generics;
 
-public class Currency {
+public abstract class Currency {
 
     private double currencyDolarExchangeRate;
-    private double totalCurrencyDolarValue;
-    private int currencyQuantity;
 
-    public Currency(double currencyDolarExchangeRate, double totalCurrencyDolarValue, int currencyQuantity) {
+    public Currency(double currencyDolarExchangeRate) {
         this.currencyDolarExchangeRate = currencyDolarExchangeRate;
-        this.totalCurrencyDolarValue = totalCurrencyDolarValue;
-        this.currencyQuantity = currencyQuantity;
+    }
+
+    public double getCurrencyDolarExchangeRate() {
+        return currencyDolarExchangeRate;
     }
 }

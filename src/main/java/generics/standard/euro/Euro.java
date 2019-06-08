@@ -4,7 +4,7 @@ import generics.standard.StandardCurrency;
 
 public class Euro extends StandardCurrency {
 
-    public Euro(double currencyDolarExchangeRate, double totalCurrencyDolarValue, int currencyQuantity) {
-        super(currencyDolarExchangeRate, totalCurrencyDolarValue, currencyQuantity);
+    public Euro(double currencyDolarExchangeRate) {
+        super(currencyDolarExchangeRate);
     }
 }
