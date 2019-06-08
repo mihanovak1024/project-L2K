@@ -1,6 +1,6 @@
 package generics;
 
-public enum  CurrencyType {
+public enum CurrencyType {
 
     CRYPTOCURRENCY, STANDARD
 

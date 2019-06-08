@@ -4,7 +4,7 @@ import generics.Wallet;
 
 public class BitcoinWallet extends Wallet<Bitcoin> {
 
-    public BitcoinWallet(Bitcoin currency, int currencyQuantity) {
+    public BitcoinWallet(Bitcoin currency, double currencyQuantity) {
         super(currency, currencyQuantity);
     }
 

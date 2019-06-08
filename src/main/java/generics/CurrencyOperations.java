@@ -1,8 +1,8 @@
 package generics;
 
-import generics.standard.StandardCurrency;
+import generics.standard.StandardWallet;
 
-public interface CurrencyOperations<Z extends StandardCurrency> {
+public interface CurrencyOperations<Z extends StandardWallet> {
 
-    <T extends Currency, V extends Currency> Z sumTwoCurrencies(T firstCurrency, V secondCurrency);
+    <T extends CurrencyHolder, V extends CurrencyHolder> Z sumTwoCurrencies(T firstCurrencyHolder, V secondCurrencyHolder);
 }

@@ -2,10 +2,10 @@ package generics;
 
 public abstract class Wallet<T extends Currency> implements CurrencyHolder<T> {
 
-    private int currencyQuantity;
+    private double currencyQuantity;
     private T currency;
 
-    public Wallet(T currency, int currencyQuantity) {
+    public Wallet(T currency, double currencyQuantity) {
         this.currency = currency;
         this.currencyQuantity = currencyQuantity;
     }

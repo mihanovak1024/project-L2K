@@ -11,6 +11,7 @@ import generics.ethereum.Ethereum;
 import generics.ethereum.EthereumWallet;
 import generics.standard.StandardCurrencyHolder;
 import generics.standard.dollar.Dollar;
+import generics.standard.dollar.DollarOperations;
 import generics.standard.dollar.DollarWallet;
 import generics.standard.euro.Euro;
 import generics.standard.euro.EuroWallet;
@@ -31,22 +32,30 @@ public class Wallmart {
         setupWalletList();
 
         Map<String, StandardCurrencyHolder> standardCurrencyHolderMap = new HashMap<>();
-        Bitcoin bitcoin;
+        CurrencyHolder bitcoinHolder = null;
 
         for (CurrencyHolder currencyHolder : walletList) {
             Currency currency = currencyHolder.getCurrency();
-            System.out.println("Currency of type [" + currency.getClass().getSimpleName() + "] has a value of " +
-                               currencyHolder.getTotalValueInDollars() + " dollars");
-            System.out.println("The holder has a currency of group type [" + currency.getCurrencyType() + "] and is " +
-                               (currencyHolder.isHolderAnonymous() ? "anonymous" : "not anonymous"));
+            System.out.print("Currency of type [" + currency.getClass().getSimpleName() + "] has a value of " +
+                             currencyHolder.getTotalValueInDollars() + " dollars.");
+            System.out.println(" The holder has a currency of group type [" + currency.getCurrencyType() + "] and is " +
+                               (currencyHolder.isHolderAnonymous() ? "anonymous" : "NOT anonymous") + ".");
             if (currencyHolder instanceof StandardCurrencyHolder) {
                 standardCurrencyHolderMap.put(currency.getClass().getSimpleName(), (StandardCurrencyHolder) currencyHolder);
             } else if (currency instanceof Bitcoin) {
-                bitcoin = (Bitcoin) currency;
+                bitcoinHolder = currencyHolder;
             }
         }
+        System.out.println();
 
-
+        DollarOperations dollarOperations = new DollarOperations();
+        StandardCurrencyHolder euroHolder = standardCurrencyHolderMap.get(Euro.class.getSimpleName());
+        if (bitcoinHolder != null) {
+            DollarWallet summedDollars = dollarOperations.sumTwoCurrencies(bitcoinHolder, euroHolder);
+            System.out.println("Summed dollar value of [" + bitcoinHolder.getCurrency().getClass().getSimpleName() + "] and [" +
+                               euroHolder.getCurrency().getClass().getSimpleName() + "] is a value of " +
+                               summedDollars.getTotalValueInDollars() + " dollars.");
+        }
     }
 
     private void setupWalletList() {

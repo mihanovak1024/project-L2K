@@ -1,12 +1,16 @@
 package generics.standard.dollar;
 
-import generics.Currency;
+import generics.CurrencyHolder;
 import generics.CurrencyOperations;
 
-public class DollarOperations implements CurrencyOperations<Dollar> {
+public class DollarOperations implements CurrencyOperations<DollarWallet> {
 
     @Override
-    public <T extends Currency, V extends Currency> Dollar sumTwoCurrencies(T firstCurrency, V secondCurrency) {
-        return null;
+    public <T extends CurrencyHolder, V extends CurrencyHolder> DollarWallet sumTwoCurrencies(T firstCurrencyHolder,
+                                                                                              V secondCurrencyHolder) {
+        Dollar dollar = new Dollar(1);
+        double result = firstCurrencyHolder.getTotalValueInDollars() + secondCurrencyHolder.getTotalValueInDollars();
+        DollarWallet dollarWallet = new DollarWallet(dollar, result);
+        return dollarWallet;
     }
 }

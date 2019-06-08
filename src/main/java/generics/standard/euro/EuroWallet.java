@@ -4,12 +4,12 @@ import generics.standard.StandardWallet;
 
 public class EuroWallet extends StandardWallet<Euro> {
 
-    public EuroWallet(Euro currency, int currencyQuantity) {
+    public EuroWallet(Euro currency, double currencyQuantity) {
         super(currency, currencyQuantity);
     }
 
     @Override
-    public void transferCurrencyToBankAccount(int currencyAmountToTransfer, Euro currency) {
+    public void transferCurrencyToBankAccount(double currencyAmountToTransfer, Euro currency) {
 
     }
 }
