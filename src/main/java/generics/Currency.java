@@ -11,4 +11,6 @@ public abstract class Currency {
     public double getCurrencyDolarExchangeRate() {
         return currencyDolarExchangeRate;
     }
+
+    public abstract CurrencyType getCurrencyType();
 }

@@ -1,12 +1,15 @@
 package generics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import generics.bitcoin.Bitcoin;
 import generics.bitcoin.BitcoinWallet;
 import generics.ethereum.Ethereum;
 import generics.ethereum.EthereumWallet;
+import generics.standard.StandardCurrencyHolder;
 import generics.standard.dollar.Dollar;
 import generics.standard.dollar.DollarWallet;
 import generics.standard.euro.Euro;
@@ -26,6 +29,24 @@ public class Wallmart {
 
     public Wallmart() {
         setupWalletList();
+
+        Map<String, StandardCurrencyHolder> standardCurrencyHolderMap = new HashMap<>();
+        Bitcoin bitcoin;
+
+        for (CurrencyHolder currencyHolder : walletList) {
+            Currency currency = currencyHolder.getCurrency();
+            System.out.println("Currency of type [" + currency.getClass().getSimpleName() + "] has a value of " +
+                               currencyHolder.getTotalValueInDollars() + " dollars");
+            System.out.println("The holder has a currency of group type [" + currency.getCurrencyType() + "] and is " +
+                               (currencyHolder.isHolderAnonymous() ? "anonymous" : "not anonymous"));
+            if (currencyHolder instanceof StandardCurrencyHolder) {
+                standardCurrencyHolderMap.put(currency.getClass().getSimpleName(), (StandardCurrencyHolder) currencyHolder);
+            } else if (currency instanceof Bitcoin) {
+                bitcoin = (Bitcoin) currency;
+            }
+        }
+
+
     }
 
     private void setupWalletList() {
