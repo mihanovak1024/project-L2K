@@ -1,32 +1,50 @@
 package concurrency.locks;
 
-import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class DishOrderListHolder {
+import javax.annotation.Nullable;
 
-    private Queue<DishOrder> dishOrderList;
+/**
+ * DishOrderHolder holds the queue of the DishOrders and
+ * ensures adding and polling from queue is synchronised with a lock.
+ */
+public class DishOrderHolder {
+
+    private Queue<DishOrder> dishOrderQueue;
     private Lock dishOrderLock = new ReentrantLock();
 
-    public DishOrderListHolder() {
-        this.dishOrderList = new Block<>();
+    public DishOrderHolder() {
+        this.dishOrderQueue = new PriorityQueue<>();
     }
 
-    public void addDishOrderToList(DishOrder dishOrder) {
+    /**
+     * Adds a DishOrder to the queue
+     *
+     * @param dishOrder
+     */
+    public void addDishOrderToQueue(DishOrder dishOrder) {
         dishOrderLock.lock();
         try {
-            dishOrderList.add(dishOrder);
+            dishOrderQueue.add(dishOrder);
         } finally {
             dishOrderLock.unlock();
         }
     }
 
-    public DishOrder getDishOrderFromList() {
+    /**
+     * Returns a DishOrder from a queue or null
+     * if the queue is empty.
+     *
+     * @return DishOrder or null (if queue empty)
+     */
+    @Nullable
+    public DishOrder getDishOrderFromQueue() {
         dishOrderLock.lock();
         try {
-            return dishOrderList.get();
+            return dishOrderQueue.poll();
         } finally {
             dishOrderLock.unlock();
         }

@@ -22,7 +22,15 @@ public class DishOrder {
         }
     }
 
-    private boolean isDishOutOfKitchen() {
+    public boolean isDishOutOfKitchen() {
         return dishState == DishState.SERVED;
+    }
+
+    public boolean isDishCut() {
+        return dishState == DishState.VEGETABLES_CUT;
+    }
+
+    public boolean isDishHeated() {
+        return dishState == DishState.HEATED;
     }
 }
