@@ -1,6 +1,6 @@
 package concurrency.locks;
 
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,7 +17,7 @@ public class DishOrderHolder {
     private Lock dishOrderLock = new ReentrantLock();
 
     public DishOrderHolder() {
-        this.dishOrderQueue = new PriorityQueue<>();
+        this.dishOrderQueue = new LinkedList<>();
     }
 
     /**

@@ -9,9 +9,11 @@ public class OvercookedChef extends OvercookedPlayer {
     private Logger log = LoggerFactory.getLogger(OvercookedChef.class);
 
     private final List<OvercookedPlayer> playerList;
+    private final int chefWakeUpMillis;
 
-    OvercookedChef(int taskDurationMillis, DishOrderHolder dishOrderHolder, List<OvercookedPlayer> playerList) {
-        super(taskDurationMillis, dishOrderHolder);
+    OvercookedChef(int taskDurationMillis, DishOrderHolder dishOrderHolder, List<OvercookedPlayer> playerList, int chefWakeUpMillis) {
+        super(taskDurationMillis, dishOrderHolder, 0);
+        this.chefWakeUpMillis = chefWakeUpMillis;
         this.playerList = playerList;
     }
 
@@ -32,13 +34,14 @@ public class OvercookedChef extends OvercookedPlayer {
     }
 
     private void addNewOrderToList() {
+        log.debug("Put a new order to dishOrderHolder.");
         dishOrderHolder.addDishOrderToQueue(new DishOrder());
     }
 
     @Override
     public void run() {
         log.debug("Chef [thread = {}]", Thread.currentThread().getName());
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < playerList.size() * 5; i++) {
             log.debug("New chef iteration {}", i);
             if (i % 2 == 0) {
                 addNewOrderToList();
@@ -49,7 +52,7 @@ public class OvercookedChef extends OvercookedPlayer {
 
             try {
                 log.debug("Chef taking a break");
-                Thread.sleep(200);
+                Thread.sleep(chefWakeUpMillis);
                 log.debug("Chef end of break");
             } catch (InterruptedException e) {
                 e.printStackTrace();

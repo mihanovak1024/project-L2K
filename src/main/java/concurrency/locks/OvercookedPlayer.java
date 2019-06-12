@@ -16,15 +16,17 @@ public class OvercookedPlayer implements Runnable {
     private Condition playerFlowCondition = playerLock.newCondition();
     private Condition cleaningDishesCondition = cleaningDishesLock.newCondition();
 
-    int taskDurationMillis;
+    final int taskDurationMillis;
+    final int playerShiftCheckMillis;
     final DishOrderHolder dishOrderHolder;
     private DishOrder currentDish;
 
     private volatile boolean isCleaningPlates = false;
 
-    OvercookedPlayer(int taskDurationMillis, DishOrderHolder dishOrderHolder) {
+    OvercookedPlayer(int taskDurationMillis, DishOrderHolder dishOrderHolder, int playerShiftCheckMillis) {
         this.taskDurationMillis = taskDurationMillis;
         this.dishOrderHolder = dishOrderHolder;
+        this.playerShiftCheckMillis = playerShiftCheckMillis;
     }
 
     private void cutVegetables(DishOrder dishOrder) {
@@ -91,11 +93,12 @@ public class OvercookedPlayer implements Runnable {
     }
 
     void cleanPlates() {
-        log.debug("Cleaning plates.");
+        log.debug("Player should clean plates.");
         playerLock.lock();
         try {
             playerFlowCondition.signal();
             if (currentDish != null) {
+                log.debug("Current state of dishOrder [{}]", currentDish.getDishState().toString());
                 dishOrderHolder.addDishOrderToQueue(currentDish);
             }
             isCleaningPlates = true;
@@ -112,7 +115,7 @@ public class OvercookedPlayer implements Runnable {
         } finally {
             cleaningDishesLock.unlock();
         }
-        log.debug("Done cleaning plates.");
+        log.debug("Player is done cleaning plates.");
     }
 
     private void cleaningPlatesMode() {
@@ -137,11 +140,13 @@ public class OvercookedPlayer implements Runnable {
             currentDish = dishOrderHolder.getDishOrderFromQueue();
             if (currentDish == null) {
                 try {
-                    log.debug("No dishes at the moment, taking a break.");
-                    Thread.sleep(100);
+                    log.debug("No dishes at the moment, taking a break. [{}/5]", i);
+                    Thread.sleep(playerShiftCheckMillis);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            } else {
+                break;
             }
         }
         if (currentDish == null) {

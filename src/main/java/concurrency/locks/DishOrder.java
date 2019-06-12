@@ -33,4 +33,8 @@ public class DishOrder {
     public boolean isDishHeated() {
         return dishState == DishState.HEATED;
     }
+
+    public DishState getDishState() {
+        return dishState;
+    }
 }
