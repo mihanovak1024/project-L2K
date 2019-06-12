@@ -29,8 +29,16 @@ public class OvercookedPlayer implements Runnable {
         this.playerShiftCheckMillis = playerShiftCheckMillis;
     }
 
-    private void cutVegetables(DishOrder dishOrder) {
-        if (dishOrder.isDishCut()) {
+    /**
+     * Logic for action of cutting vegetables.
+     * <p>
+     * First checks if this task was already done for the currentDish
+     * and if already was, it returns and starts with another task.
+     * If not, it awaits for taskDurationMillis milliseconds to finish
+     * the task or until it gets signaled (and forced to clean plates).)
+     */
+    private void cutVegetables() {
+        if (currentDish.isDishCut()) {
             log.debug("Dish already cut");
             return;
         }
@@ -40,7 +48,7 @@ public class OvercookedPlayer implements Runnable {
             if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
-                dishOrder.vegetablesCut();
+                currentDish.vegetablesCut();
                 log.debug("Done cutting vegetables.");
             }
         } catch (InterruptedException e) {
@@ -50,8 +58,16 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
-    private void heatDish(DishOrder dishOrder) {
-        if (dishOrder.isDishHeated()) {
+    /**
+     * Logic for action of heating the dish.
+     * <p>
+     * First checks if this task was already done for the currentDish
+     * and if already was, it returns and starts with another task.
+     * If not, it awaits for taskDurationMillis milliseconds to finish
+     * the task or until it gets signaled (and forced to clean plates).)
+     */
+    private void heatDish() {
+        if (currentDish.isDishHeated()) {
             log.debug("Dish already cut");
             return;
         }
@@ -61,7 +77,7 @@ public class OvercookedPlayer implements Runnable {
             if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
-                dishOrder.dishHeated();
+                currentDish.dishHeated();
                 log.debug("Done heating dish.");
             }
         } catch (InterruptedException e) {
@@ -71,8 +87,16 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
-    private void serveDish(DishOrder dishOrder) {
-        if (dishOrder.isDishOutOfKitchen()) {
+    /**
+     * Logic for action of serving the dish to the customer.
+     * <p>
+     * First checks if this task was already done for the currentDish
+     * and if already was, it returns and starts with another task.
+     * If not, it awaits for taskDurationMillis milliseconds to finish
+     * the task or until it gets signaled (and forced to clean plates).)
+     */
+    private void serveDish() {
+        if (currentDish.isDishOutOfKitchen()) {
             log.debug("Dish already cut");
             return;
         }
@@ -82,7 +106,7 @@ public class OvercookedPlayer implements Runnable {
             if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
-                dishOrder.dishServerd();
+                currentDish.dishServed();
                 log.debug("Done serving dish.");
             }
         } catch (InterruptedException e) {
@@ -92,6 +116,14 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
+    /**
+     * It stops the current task this {@link OvercookedPlayer} is
+     * performing and forces him to clean dishes.
+     * <p>
+     * The current unfinished dish is returned to the {@link DishOrderHolder}.
+     * <p>
+     * This method can be triggered from {@link OvercookedChef}.
+     */
     void cleanPlates() {
         log.debug("Player should clean plates.");
         playerLock.lock();
@@ -107,6 +139,11 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
+    /**
+     * It stops the current plate cleaning task and makes the player continue previous work.
+     * <p>
+     * This method can be triggered from {@link OvercookedChef}.
+     */
     void stopCleaningPlatesAndContinueWork() {
         cleaningDishesLock.lock();
         try {
@@ -118,6 +155,12 @@ public class OvercookedPlayer implements Runnable {
         log.debug("Player is done cleaning plates.");
     }
 
+    /**
+     * When {@link OvercookedPlayer#cleanPlates()} method is called from {@link OvercookedChef},
+     * the current Thread awaits until either
+     * a) {@link OvercookedChef} calls {@link OvercookedPlayer#stopCleaningPlatesAndContinueWork()}
+     * b) the (taskDurationMillis * 5) milliseconds passes
+     */
     private void cleaningPlatesMode() {
         cleaningDishesLock.lock();
         try {
@@ -132,6 +175,16 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
+    /**
+     * Main logic for {@link OvercookedPlayer}.
+     * It checks the {@link DishOrderHolder} for available {@link DishOrder} and
+     * starts executing each task, if the plateCleaning task from
+     * {@link OvercookedChef}'s side was not initiated.
+     *
+     * If the {@link DishOrderHolder} does not contain any available
+     * {@link DishOrder}, it waits 5 iterations for playerShiftCheckMillis milliseconds
+     * and tries to check for an available {@link DishOrder} every iteration.
+     */
     @Override
     public void run() {
         log.debug("New dish [thread = {}]", Thread.currentThread().getName());
@@ -155,21 +208,21 @@ public class OvercookedPlayer implements Runnable {
         }
 
         if (!isCleaningPlates) {
-            cutVegetables(currentDish);
+            cutVegetables();
         } else {
             cleaningPlatesMode();
             return;
         }
 
         if (!isCleaningPlates) {
-            heatDish(currentDish);
+            heatDish();
         } else {
             cleaningPlatesMode();
             return;
         }
 
         if (!isCleaningPlates) {
-            serveDish(currentDish);
+            serveDish();
         } else {
             cleaningPlatesMode();
             return;

@@ -17,6 +17,12 @@ public class OvercookedChef extends OvercookedPlayer {
         this.playerList = playerList;
     }
 
+    /**
+     * A random {@link OvercookedPlayer} is selected to clean plates and is
+     * cleared of plate cleaning duty after taskDurationMillis milliseconds.
+     *
+     * @param overcookedPlayer
+     */
     private void bossPlayerAround(OvercookedPlayer overcookedPlayer) {
         if (overcookedPlayer == this) {
             log.debug("Can't boss myself around, should find someone else.");
@@ -33,11 +39,23 @@ public class OvercookedChef extends OvercookedPlayer {
         overcookedPlayer.stopCleaningPlatesAndContinueWork();
     }
 
+    /**
+     * A new {@link DishOrder} is created and added into the {@link DishOrderHolder}.
+     */
     private void addNewOrderToList() {
         log.debug("Put a new order to dishOrderHolder.");
         dishOrderHolder.addDishOrderToQueue(new DishOrder());
     }
 
+    //@formatter:off
+    /**
+     * Iterates for playerList.size() * 5 cycles and does the following:
+     * a) on every even cycle it adds a new {@link DishOrder} to the {@link DishOrderHolder}
+     * b) on every odd cycle it picks a random {@link OvercookedPlayer} and assigns him
+     *    plate cleaning duty for taskDurationMillis milliseconds.
+     * Then waits for chefWakeUpMillis milliseconds before going to a next cycle iteration.
+     */
+    //@formatter:on
     @Override
     public void run() {
         log.debug("Chef [thread = {}]", Thread.currentThread().getName());

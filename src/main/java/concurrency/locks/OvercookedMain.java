@@ -6,9 +6,23 @@ import java.util.List;
 public class OvercookedMain {
 
     public static void main(String[] args) {
-        new OvercookedMain(3, 100, 70, 50);
+        new OvercookedMain(
+                3,
+                100,
+                70,
+                50
+        );
     }
 
+    /**
+     * Creates a list of {@link OvercookedPlayer} and one {@link OvercookedChef}.
+     * Starts the chef and players in their own threads.
+     *
+     * @param numberOfPlayers
+     * @param taskDurationMillis
+     * @param chefWakeUpMillis
+     * @param playerShiftCheckMillis
+     */
     OvercookedMain(int numberOfPlayers, int taskDurationMillis, int chefWakeUpMillis, int playerShiftCheckMillis) {
         DishOrderHolder dishOrderHolder = new DishOrderHolder();
         List<OvercookedPlayer> playerList = new ArrayList<>();
