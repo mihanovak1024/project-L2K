@@ -16,18 +16,18 @@ public class OvercookedPlayer implements Runnable {
     private Condition playerFlowCondition = playerLock.newCondition();
     private Condition cleaningDishesCondition = cleaningDishesLock.newCondition();
 
-    private int taskDuration;
-    private final DishOrderHolder dishOrderHolder;
+    int taskDurationMillis;
+    final DishOrderHolder dishOrderHolder;
     private DishOrder currentDish;
 
     private volatile boolean isCleaningPlates = false;
 
-    public OvercookedPlayer(int taskDuration, DishOrderHolder dishOrderHolder) {
-        this.taskDuration = taskDuration;
+    OvercookedPlayer(int taskDurationMillis, DishOrderHolder dishOrderHolder) {
+        this.taskDurationMillis = taskDurationMillis;
         this.dishOrderHolder = dishOrderHolder;
     }
 
-    public void cutVegetables(DishOrder dishOrder) {
+    private void cutVegetables(DishOrder dishOrder) {
         if (dishOrder.isDishCut()) {
             log.debug("Dish already cut");
             return;
@@ -35,7 +35,7 @@ public class OvercookedPlayer implements Runnable {
         log.debug("Cutting vegetables.");
         playerLock.lock();
         try {
-            if (playerFlowCondition.await(taskDuration, TimeUnit.MILLISECONDS)) {
+            if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
                 dishOrder.vegetablesCut();
@@ -48,7 +48,7 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
-    public void heatDish(DishOrder dishOrder) {
+    private void heatDish(DishOrder dishOrder) {
         if (dishOrder.isDishHeated()) {
             log.debug("Dish already cut");
             return;
@@ -56,7 +56,7 @@ public class OvercookedPlayer implements Runnable {
         log.debug("Heating dish.");
         playerLock.lock();
         try {
-            if (playerFlowCondition.await(taskDuration, TimeUnit.MILLISECONDS)) {
+            if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
                 dishOrder.dishHeated();
@@ -69,7 +69,7 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
-    public void serveDish(DishOrder dishOrder) {
+    private void serveDish(DishOrder dishOrder) {
         if (dishOrder.isDishOutOfKitchen()) {
             log.debug("Dish already cut");
             return;
@@ -77,7 +77,7 @@ public class OvercookedPlayer implements Runnable {
         log.debug("Serving dish.");
         playerLock.lock();
         try {
-            if (playerFlowCondition.await(taskDuration, TimeUnit.MILLISECONDS)) {
+            if (playerFlowCondition.await(taskDurationMillis, TimeUnit.MILLISECONDS)) {
                 log.debug("Player interrupted");
             } else {
                 dishOrder.dishServerd();
@@ -90,19 +90,21 @@ public class OvercookedPlayer implements Runnable {
         }
     }
 
-    public void cleanPlates() {
+    void cleanPlates() {
         log.debug("Cleaning plates.");
         playerLock.lock();
         try {
             playerFlowCondition.signal();
-            dishOrderHolder.addDishOrderToQueue(currentDish);
+            if (currentDish != null) {
+                dishOrderHolder.addDishOrderToQueue(currentDish);
+            }
             isCleaningPlates = true;
         } finally {
             playerLock.unlock();
         }
     }
 
-    public void stopCleaningPlatesAndContinueWork() {
+    void stopCleaningPlatesAndContinueWork() {
         cleaningDishesLock.lock();
         try {
             isCleaningPlates = false;
@@ -116,8 +118,9 @@ public class OvercookedPlayer implements Runnable {
     private void cleaningPlatesMode() {
         cleaningDishesLock.lock();
         try {
-            cleaningDishesCondition.await(taskDuration * 5, TimeUnit.MILLISECONDS);
-            log.debug("Waking up");
+            log.debug("Cleaning plates mode");
+            cleaningDishesCondition.await(taskDurationMillis * 5, TimeUnit.MILLISECONDS);
+            log.debug("Resuming other work");
             run();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -128,8 +131,23 @@ public class OvercookedPlayer implements Runnable {
 
     @Override
     public void run() {
-        log.debug("New dish");
-        currentDish = dishOrderHolder.getDishOrderFromQueue();
+        log.debug("New dish [thread = {}]", Thread.currentThread().getName());
+
+        for (int i = 0; i < 5; i++) {
+            currentDish = dishOrderHolder.getDishOrderFromQueue();
+            if (currentDish == null) {
+                try {
+                    log.debug("No dishes at the moment, taking a break.");
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (currentDish == null) {
+            log.debug("No more dishes, ending my shift.");
+            return;
+        }
 
         if (!isCleaningPlates) {
             cutVegetables(currentDish);
