@@ -17,10 +17,10 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 ## Project status
 ### Finished
 - Java multithreading (synchronised)
+- Java multithreading (locks and conditions)
 - Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 - Java Generics
 ### In progress
-- Java multithreading (locks and conditions)
 ### Running each project
 Each little project will have Unit tests, but can also be run (in Java) via the `public static void main()` method.
 Each project can be run separately and independently from one another.
