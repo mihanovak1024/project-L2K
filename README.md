@@ -2,16 +2,17 @@
 
 Project L2K is short for Learn to know and is my personal learning playground. 
 Here I'll be playing with stuff I learn from books and videos and make little projects out of them.
+Most mini projects here will be in Java. I might create a different project for Android,... 
 
 The code is meant to be well organized with Javadocs and Unit tests and is meant to present my already achieved skills.
 Older "little projects" might not be as up-to-date as the newer ones as I currently don't to update the older projects, but only create newer (more up-to-date) ones. 
 
 ## TODO
 Topics that are already a known concept in my mind, but didn't yet have the privilege to have their very own project:
-- RxJava2 and RxAndroid
-- Dagger2 ande Dependency Injection
-- Small Kotlin projects (emphasis on Streams and Lambdas)
+- RxJava2
+- Dependency Injection
 - Design patterns
+- SPI
 
 
 ## Project status
