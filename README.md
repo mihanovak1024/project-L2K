@@ -9,7 +9,6 @@ Older "little projects" might not be as up-to-date as the newer ones as I curren
 
 ## TODO
 Topics that are already a known concept in my mind, but didn't yet have the privilege to have their very own project:
-- RxJava2
 - Dependency Injection
 - Design patterns
 - SPI
@@ -22,6 +21,7 @@ Topics that are already a known concept in my mind, but didn't yet have the priv
 - Futures and ListenableFutures ([Guava](https://github.com/google/guava))
 - Java Generics
 ### In progress
+- RxJava2
 ### Running each project
 Each little project will have Unit tests, but can also be run (in Java) via the `public static void main()` method.
 Each project can be run separately and independently from one another.
