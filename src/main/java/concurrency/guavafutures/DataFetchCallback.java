@@ -1,4 +1,4 @@
-package concurrency.futures;
+package concurrency.guavafutures;
 
 import javax.annotation.Nonnull;
 

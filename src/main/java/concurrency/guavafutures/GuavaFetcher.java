@@ -1,4 +1,4 @@
-package concurrency.futures;
+package concurrency.guavafutures;
 
 import java.io.InputStream;
 import java.util.concurrent.Callable;

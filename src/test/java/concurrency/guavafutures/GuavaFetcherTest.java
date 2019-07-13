@@ -1,4 +1,4 @@
-package concurrency.futures;
+package concurrency.guavafutures;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
